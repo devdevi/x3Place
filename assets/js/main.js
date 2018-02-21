@@ -30,6 +30,7 @@ $(function() {
 
     });
  });
+};
  var statusChangeCallback = function(response, callback) {
     console.log(response);
 
@@ -97,6 +98,6 @@ else
 })
 
 
-});
+})
 
-  // ultimo token
+      
