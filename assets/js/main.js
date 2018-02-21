@@ -16,21 +16,32 @@
 })(jQuery);
 
 $(function() {
+    var app_id = '229481407597435';
     var scopes = 'email, user_friends, public_profile';
     var btn_login = '<a href="#" id="login" class="btn btn-primary">Iniciar secion con Facebook</a>'
     var div_session = "<div id='facebook-session'>";+
                 "<srtrong></strong>"+
                 "<img>"+
-                '<a href="#" id="logout" class="btn btn-danger">Cerrar sesion</a>'+
+                "<a href='#'id='logout' class='btn btn-danger'>Cerrar sesion</a>"+
                 "</div>";
 
 
+window.fbAsyncInit = function() {
+    FB.init({
+        appId: app_id,
+        status  :true,
+        cookie: true,
+        xfbml: true,
+        version: "v2.8"
+    });
+
  FB.getLoginStatus(function(response) {
-    statusChangeCallback(response, function() {});
+    statusChangeCallback(response, function(){
 
     });
+ });
 };
- var statusChangeCallback = function(response, callback)  {
+ var statusChangeCallback = function(response, callback) {
     console.log(response);
 
     if(response.status === 'connected') {
@@ -41,12 +52,14 @@ $(function() {
 }
 
     var checkLoginState = function(callback) {
-    FB.getLoginStatus(function(response) { 
-        callback(response);
+    FB.getLoginStatus(function(response) {
+        statusChangeCallback(response, function(data) {
+        callback(data);
         });
+    });
    }
-
-   var getFacebookData = function()  { 
+   var getFacebookData = function()
+   { 
         FB.api('/me', function(response){
             $('#login').after(div_session);
             $('#login').remove();
@@ -56,27 +69,27 @@ $(function() {
    }
 
    var facebookLogin = function(){
-    checkLoginState(function(data){
-        if(data.status !== 'connected') {
+    checkLoginState(function(response){
+        if(!response) {
             FB.login(function(response){
                 if (response.status === 'connected')
                     getFacebookData();
-            }, {scope: scopes});
+            }, {scope: scopes})
         }
 
     })
    }
 
    var facebookLogout = function() {
-    checkLoginState(function(data){
-        if (data.status === 'connected') {
+    FB.getLoginStatus(function(response){
+        if (response.status === 'connected') {
             FB.logout(function(response){
                 $('#facebook-session').before(btn_login);
                 $('#facebook-session').remove();
             })
         }
 
-    })
+    });
    }
 
 $(document).on('click', '#login', function(e) {
@@ -97,4 +110,42 @@ else
 
 })
 
-      
+      console.log(data);  
+      $('#dayAll').append(
+      	` <div class="white-text ">
+      	<h3>Santiago</h3>
+      	<canvas id="ico" width="50" height="50"></canvas>
+      	<h1>${Math.floor(data.currently.temperature)}°C</h1>
+      	
+      	<table class="centered responsive-table ">
+        <thead>
+          <tr>
+              <th>Temperatura</th>
+              <th>Viento</th>
+              <th>Humedad</th>
+              <th>Indic Uv</th>
+              <th>Presión</th>
+          </tr> 
+       </thead>
+        <tbody>
+            <tr>
+              <td>${Math.floor(data.currently.temperature)}°</td>
+              <td>${data.currently.windSpeed}</td>
+              <td>${data.currently.windSpeed}</td>
+              <td>${data.currently.uvIndex}</td>
+              <td>${data.currently.pressure}</td>
+          </tr>
+        </tbody>
+         <hr>
+       </table> 
+        <hr>
+       `
+      	);
+       const skycons = new Skycons({ 
+        'color': '#fafafa',
+      });
+      skycons.add("ico", `${data.currently.icon}`);
+      skycons.play();
+
+
+
