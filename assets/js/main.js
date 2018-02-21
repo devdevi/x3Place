@@ -22,7 +22,7 @@ $(function() {
     var div_session = "<div id='facebook-session'>";+
                 "<srtrong></strong>"+
                 "<img>"+
-                "<a href='#'id='logout' class='btn btn-danger'>Cerrar sesion</a>"+
+                '<a href="#" id="logout" class="btn btn-danger">Cerrar sesion</a>'+
                 "</div>";
 
 
