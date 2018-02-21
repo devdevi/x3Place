@@ -26,12 +26,11 @@ $(function() {
 
 
  FB.getLoginStatus(function(response) {
-    statusChangeCallback(response, function(){
+    statusChangeCallback(response, function() {});
 
     });
- });
 };
- var statusChangeCallback = function(response, callback) {
+ var statusChangeCallback = function(response, callback)  {
     console.log(response);
 
     if(response.status === 'connected') {
@@ -42,16 +41,14 @@ $(function() {
 }
 
     var checkLoginState = function(callback) {
-    FB.getLoginStatus(function(response) {
-        statusChangeCallback(response, function(data) {
-        callback(data);
+    FB.getLoginStatus(function(response) { 
+        callback(response);
         });
-    });
    }
-   var getFacebookData = function()
-   { 
+
+   var getFacebookData = function()  { 
         FB.api('/me', function(response){
-            $('#login').affter(div_session);
+            $('#login').after(div_session);
             $('#login').remove();
             $('#facebook-session strong').text("Bienvenido: "+response.name);
             $('#facebook-session img').attr('src', 'http//graph.facebook.com/'+response.id+'/picture?type=large');
@@ -59,27 +56,27 @@ $(function() {
    }
 
    var facebookLogin = function(){
-    checkLoginState(function(response){
-        if(!response) {
+    checkLoginState(function(data){
+        if(data.status !== 'connected') {
             FB.login(function(response){
                 if (response.status === 'connected')
                     getFacebookData();
-            }, {scope: scopes})
+            }, {scope: scopes});
         }
 
     })
    }
 
    var facebookLogout = function() {
-    FB.getLoginStatus(function(response){
-        if (response.status === 'connected') {
+    checkLoginState(function(data){
+        if (data.status === 'connected') {
             FB.logout(function(response){
                 $('#facebook-session').before(btn_login);
                 $('#facebook-session').remove();
             })
         }
 
-    });
+    })
    }
 
 $(document).on('click', '#login', function(e) {
