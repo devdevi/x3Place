@@ -1,32 +1,20 @@
+$('#initApp').addClass('show');
+$('#mapContainer').addClass('hide');
+$('#infoApp').addClass('hide');
 
- let totalPLaces='';
-$( document ).ready(function() {
-     $('.modal').modal();
+$('#jump').click(function(e){
+  e.preventDefault()
 
-        //now you can open modal from code
-        $('#modal1').modal('open');
+$('#initApp').addClass('hide');
+$('#mapContainer').removeClass('hide');
+$('#infoApp').removeClass('hide');
 
-        //or by click on trigger
-        $('.trigger-modal').modal();
-
-     getLocation()
+  getLocation()
 
 });
-(function ($) {
-    $(function (){
 
-        //initialize all modals           
-        $('.modal').modal();
-        showPosition()
-
-        // //now you can open modal from code
-        // $('#modal1').modal('open');
-
-        // //or by click on trigger
-        // $('.trigger-modal').modal();
-
-    }); // end of document ready
-})(jQuery);
+ let totalPLaces='';
+  showPosition()
 function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(initMap);
@@ -34,22 +22,16 @@ function getLocation() {
     alert("Geolocation is not supported by this browser.");
   }
 };
-
-
 function initMap(position){
-  console.log(position)
-
+  //console.log(position)
     var center = new google.maps.LatLng(position.coords.latitude,
         position.coords.longitude)
     localStorage.setItem('lat',position.coords.latitude)
     localStorage.setItem('long',position.coords.longitude)
-
     map = new google.maps.Map(document.getElementById('map'),{
      center: center,
      zoom:12 
     }); 
-     
-
   // var logo = 'http://maps.google.com/mapfiles/kml/paddle/grn-stars.png'; cambia imgen
   var marker = new google.maps.Marker({
     position: center,
@@ -58,22 +40,15 @@ function initMap(position){
     animation: google.maps.Animation.BOUNCE,
     map: map
   });
-
-
-
   var request = {
  location: center,
  radius: 8000,
  types: ['park']
-  };
-      
+  };    
   var service = new google.maps.places.PlacesService(map);
   service.nearbySearch(request, callback); 
-
   new AutocompleteDirectionsHandler(map);
-
 }
-
 function callback(results, status) {
   if(status == google.maps.places.PlacesServiceStatus.OK){
       for (var i = 0; i < results.length; i++) {
@@ -82,10 +57,7 @@ function callback(results, status) {
       }
   }
 }
-
 function createMarker(place) {
-   var placeLoc = place.geometry.location;
-
    //modificamos la imagen del marcador
    var image = {
       url: './assets/img/tree8.png',
@@ -94,17 +66,13 @@ function createMarker(place) {
       anchor: new google.maps.Point(17, 34),
       scaledSize: new google.maps.Size(25, 25)
     };
-
       var marker = new google.maps.Marker({
           map: map,
           icon: image,
           title: place.name,
-          animation: google.maps.Animation.DROP, //google.maps.Animation.BOUNCE,
-          // customInfo:{'href':`#modal1` }, agregar atritubutos al markador
+          animation: google.maps.Animation.DROP, 
           position: place.geometry.location
       });
-      
-
 // Cambia la animacion del marcador 
 // marker.addListener('click', toggleBounce);
 // function toggleBounce() {
@@ -114,19 +82,15 @@ function createMarker(place) {
 //         marker.setAnimation(google.maps.Animation.BOUNCE);
 //       }
 //     }
-    
-      var infowindow = new google.maps.InfoWindow();
+  // var infowindow = new google.maps.InfoWindow();
     alert(`Encontramos ${totalPLaces} parques cercanos a  ti!`); 
       //console.log(marker)
       google.maps.event.addListener(marker, 'click', function() {
        localStorage.setItem('latitude', place.geometry.viewport.f.b);
-       localStorage.setItem('longD', place.geometry.viewport.b.b);
-     
+       localStorage.setItem('longD', place.geometry.viewport.b.b); 
       })
-      console.log(place);
     google.maps.event.addListener(marker, 'click', function() {
-      //$(`#modal1`).modal('open');
-       console.log(place);
+       //console.log(place);
        let status;
        if(place.hasOwnProperty('opening_hours') === true){
         if(place.opening_hours.open_now === true){
@@ -151,100 +115,6 @@ function createMarker(place) {
     // infowindow.open(map, this);
   });
 }
-
-
-
-
-
-    
-
-//             google.maps.event.addListener(marker, 'click',function(){
-//               console.log(place)
-//   var dgcTiempo=500
-//   var ventanaCS=`<div class="dgcAlert"><div class="dgcVentana"><div class="dgcCerrar"></div><div class="dgcMensaje">${name}<br><a class="waves-effect waves-light btn white-text  deep-orange accent-4 modal-trigger pulse" href="#modal1">See More</a></div></div></div>`;
-//   $('body').append(ventanaCS);
-//   var alVentana=$('.dgcVentana').height();
-//   var alNav=$(window).height();
-//   var supNav=$(window).scrollTop();
-//   $('.dgcAlert').css('height',$(document).height());
-//   $('.dgcVentana').css('top',((alNav-alVentana)/2+supNav-100)+'px');
-//   $('.dgcAlert').css('display','block');
-//   $('.dgcAlert').animate({opacity:1},dgcTiempo);
-//   $('.dgcCerrar,.dgcAceptar').click(function(e) {
-//     $('.dgcAlert').animate({opacity:0},dgcTiempo);
-//     setTimeout("$('.dgcAlert').remove()",dgcTiempo);
-//   });
-// })
-  //             console.log(place)
-  //             let name = place.name
-  //             let id = place.place_id
-  //             let name2= place.name
-  //             let name3 = place.name
-               
-  //              content: 'Hello'
-  //              alert(name, id)
-
-             
-  //             $("#modal").empty();
-
-
-  //              $("#modal").append(` 
-  // <!-- Modal Structure -->
-  // <div id="modal1" class="modal">
-  //   <div class="modal-content">
-  //     <h4>${name}</h4>
-  //     <p>A bunch of text</p>
-  //   </div>
-  //   <div class="modal-footer">
-  //     <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-  //   </div>
-  // </div>`);
-  //                $('.modal').modal();
-  //                 $(`#modal${id}`).modal('open');
-              
-               
-  //             infowindow.setContent(place.name);
-  //             infowindow.open(map.this);
-  //           })
-        
-        // }﻿
-
-
-// function AutocompleteDirectionsHandler(map) {
-//         this.map = map;
-//         this.originPlaceId = null;
-//         this.destinationPlaceId = null;
-//         this.travelMode = 'WALKING';
-//         let lat = localStorage.getItem('lat')
-//         let long = localStorage.getItem('lat')
-       
-//          var center = new google.maps.LatLng(lat,long)
-//           console.log(center)
-
-//         var originInput = document.getElementById('origin-input');
-//         var destinationInput = document.getElementById('destination-input');
-//         var modeSelector = document.getElementById('mode-selector');
-//         this.directionsService = new google.maps.DirectionsService;
-//         this.directionsDisplay = new google.maps.DirectionsRenderer;
-//         this.directionsDisplay.setMap(map);
-
-//         var originAutocomplete = new google.maps.places.Autocomplete(
-//             originInput, {placeIdOnly: true});
-//         var destinationAutocomplete = new google.maps.places.Autocomplete(
-//             destinationInput, {placeIdOnly: true});
-
-//         this.setupClickListener('changemode-walking', 'WALKING');
-//         this.setupClickListener('changemode-transit', 'TRANSIT');
-//         this.setupClickListener('changemode-driving', 'DRIVING');
-
-//         this.setupPlaceChangedListener(originAutocomplete, 'ORIG');
-//         this.setupPlaceChangedListener(destinationAutocomplete, 'DEST');
-
-//         this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(originInput);
-//         this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(destinationInput);
-//         this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(modeSelector);
-//       }
-
 
 function AutocompleteDirectionsHandler(map) {
         this.map = map;
@@ -303,21 +173,21 @@ function AutocompleteDirectionsHandler(map) {
 
            me.directionsDisplay.setDirections(response);
 
-            var star = response.routes[0].legs[0].start_location;
-        var end = response.routes[0].legs[0].end_location;
-        // console.log(JSON.stringify(star, null, ''));         
-        function addMarker(pos) {
+          var star = response.routes[0].legs[0].start_location;
+          var end = response.routes[0].legs[0].end_location;
+          // console.log(JSON.stringify(star, null, ''));         
+          function addMarker(pos) {
           var image = './assets/img/tree.png';
           new google.maps.Marker({
-            position: pos,
-            animation: google.maps.Animation.DROP,
-            map: map,
-            icon: image,
-            title: 'hola lab!'
+          position: pos,
+          animation: google.maps.Animation.DROP,
+          map: map,
+          icon: image,
+          title: 'hola lab!'
           });
-        }
-        addMarker(star);
-        addMarker(end);
+          }
+          addMarker(star);
+          addMarker(end);
           } else {
             window.alert('Lo sentimos, no hemos encontrado una ruta ' + status);
           }
@@ -325,15 +195,10 @@ function AutocompleteDirectionsHandler(map) {
         });
       };
 
-
-
-
-
-
 function alertDGC(mensaje){
   var dgcTiempo=500
   var ventanaCS=`<div class="dgcAlert"><div class="dgcVentana"><div class="dgcCerrar"></div><div class="dgcMensaje">${mensaje}<br><br>
-  <a class="dgcAceptar waves-effect waves-light btn white-text deep-orange accent-4">Gracias</a></div></div></div>`;
+  <a class="dgcAceptar waves-effect waves-light btn white-text yellow darken-4">Gracias</a></div></div></div>`;
   $('body').append(ventanaCS);
   var alVentana=$('.dgcVentana').height();
   var alNav=$(window).height();
