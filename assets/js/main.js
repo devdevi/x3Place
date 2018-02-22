@@ -26,6 +26,11 @@ $(function() {
                 "</div>";
 
 
+
+
+
+
+
 window.fbAsyncInit = function() {
     FB.init({
         appId: app_id,
@@ -73,6 +78,7 @@ window.fbAsyncInit = function() {
         if(!response) {
             FB.login(function(response){
                 if (response.status === 'connected')
+                  $('document')
                     getFacebookData();
             }, {scope: scopes})
         }
@@ -122,6 +128,7 @@ else
           <tr>
               <th>Temperatura</th>
               <th>Viento</th>
+              
               <th>Humedad</th>
               <th>Indic Uv</th>
               <th>Presión</th>
