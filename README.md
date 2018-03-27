@@ -8,7 +8,7 @@ Near me es una web app, desarrollada con la api de Google Maps, Geolocalizacion 
 ## Desarrollado para
 [Laboratoria](https://laboratoria.la)
 ##  **OBJETIVO**
-MoSTRAR NUESTROS CONOCIMIENTOS del manejo de APIS
+Demostrar el conocimiento del manejo de APIS.
 
 ##  **DESARROLLO**
 
@@ -32,7 +32,3 @@ MoSTRAR NUESTROS CONOCIMIENTOS del manejo de APIS
 - **Kesly** - [@Kesly](https://github.com/keslymartinez)
 
 - **Visaka** - [@visidevi](https://github.com/visidevi)
-
-
-
-Open source; 2018
