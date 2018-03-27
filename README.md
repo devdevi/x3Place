@@ -3,7 +3,7 @@
 - **PROYECTO EN FIREBASE** - (https://findme-visidevi.firebaseapp.com)
 Near me es una web app, desarrollada con la api de Google Maps, Geolocalizacion de Html 5 y integran un chatbot de Facebook.
 
-![near me](assets/img/capture5.jpeg)
+![near me](https://github.com/visidevi/x3Place/blob/e4dd6c55e00e5ee6bfcc16522d2aa7c7df06821e/NEARME.png?raw=true)
 
 ## Desarrollado para
 [Laboratoria](https://laboratoria.la)
